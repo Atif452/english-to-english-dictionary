@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dictionary</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+
+    <div class="main">
+
+        <h1>English Dictionary</h1>
+        <div>
+            <input type="text" class="input">
+            <button class="btn">Search</button>
+        </div>
+        <div>
+            <h2 class="word"></h2>
+          
+            <p class="definition"></p>
+            <h2 class="synonymWord"></h2>
+            <p class="synonym"></p>
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+
+        let main=document.querySelector(".main")
+        let input=document.querySelector(".input")
+        let btn=document.querySelector(".btn")
+        let word=document.querySelector(".word")
+        let definition=document.querySelector(".definition")
+        let synonymWord=document.querySelector(".synonymWord")
+        let synonym=document.querySelector(".synonym")
+        
+
+        
+        btn.addEventListener("click" , function(){
+            let a = input.value
+            let b="Synonyms"
+            
+            axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${a}`)
+
+            .then(function (response) {
+                // handle success
+                
+                let [theDate]=response.data
+                console.log(theDate );
+                word.textContent=a
+                definition.textContent=theDate.meanings[0].definitions[0].definition
+                definition.textContent+=" "+theDate.meanings[0].definitions[1].definition
+                synonymWord.textContent=b
+
+                
+                synonym.textContent=" "+theDate.meanings[0].synonyms
+                console.log(theDate.meanings[0].definitions[0].definition);
+                
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+        })
+
+
+    </script>
+</body>
+</html>
